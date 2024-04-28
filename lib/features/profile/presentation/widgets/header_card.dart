@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bjssoft/features/profile/presentation/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -19,25 +21,82 @@ class HeaderCard extends StatelessWidget {
 
     return Row(
       children: [
-        Container(
-          padding: const EdgeInsets.all(20),
-          width: MediaQuery.of(context).size.width / 2,
-          child: controller.userModel.imagePath == null
-              ? Hero(
-                  tag: Constants.avatarKey,
-                  child: Image.asset(
-                    Constants.userPlaceholder,
-                    width: size,
-                    height: size,
-                  ))
-              : Hero(
-                  tag: Constants.avatarKey,
-                  child: Image.file(
-                    controller.userModel.imagePath,
-                    width: size,
-                    height: size,
-                  ),
-                ),
+        Stack(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(20),
+              width: MediaQuery.of(context).size.width / 2,
+              height: MediaQuery.of(context).size.width / 2,
+              child: isEditVisible
+                  ? controller.imagePath == null ||
+                          controller.imagePath!.isEmpty
+                      ? Hero(
+                          tag: Constants.avatarKey,
+                          child: Image.asset(
+                            Constants.userPlaceholder,
+                            width: size,
+                            height: size,
+                            fit: BoxFit.cover,
+                          ))
+                      : Hero(
+                          tag: Constants.avatarKey,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(size),
+                            child: Image.file(
+                              File(controller.imagePath!),
+                              width: size,
+                              height: size,
+                              fit: BoxFit.cover,
+                            ),
+                          ))
+                  : (controller.userModel.imagePath == null ||
+                          controller.userModel.imagePath == '')
+                      ? Hero(
+                          tag: Constants.avatarKey,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(size),
+                            child: Image.asset(
+                              Constants.userPlaceholder,
+                              width: size,
+                              height: size,
+                              fit: BoxFit.cover,
+                            ),
+                          ))
+                      : Hero(
+                          tag: Constants.avatarKey,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(size),
+                            child: Image.file(
+                              File(controller.userModel.imagePath),
+                              width: size,
+                              fit: BoxFit.cover,
+                              height: size,
+                            ),
+                          ),
+                        ),
+            ),
+            isEditVisible
+                ? Positioned(
+                    top: 20,
+                    left: 20,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          color: Colors.blue,
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      padding: const EdgeInsets.all(4),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 36,
+                        ),
+                        onPressed: () {
+                          controller.selectProfileImage();
+                        },
+                      ),
+                    ))
+                : const SizedBox.shrink(),
+          ],
         ),
         SizedBox(
           width: MediaQuery.of(context).size.width / 2,
@@ -55,7 +114,7 @@ class HeaderCard extends StatelessWidget {
                 height: 15,
               ),
               // Edit Button
-              !isEditVisible
+              isEditVisible
                   ? const SizedBox.shrink()
                   : Container(
                       margin: const EdgeInsets.only(right: 40),

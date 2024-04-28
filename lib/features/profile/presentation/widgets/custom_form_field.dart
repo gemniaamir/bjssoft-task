@@ -7,11 +7,13 @@ class CustomFormField extends StatelessWidget {
     required this.title,
     required this.hintText,
     this.validator,
+    required this.editController
   }) : super(key: key);
 
   final String title;
   final String hintText;
   final String? Function(String?)? validator;
+  final TextEditingController editController;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class CustomFormField extends StatelessWidget {
             height: 5,
           ),
           TextFormField(
+            controller: editController,
             validator: validator,
             autofocus: false,
             style: const TextStyle(fontWeight: FontWeight.bold),

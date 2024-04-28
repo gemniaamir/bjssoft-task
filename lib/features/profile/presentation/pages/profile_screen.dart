@@ -25,10 +25,15 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 //
                 // Header Card
-                HeaderCard(controller: controller, isEditVisible: true,),
+                HeaderCard(
+                  controller: controller,
+                  isEditVisible: false,
+                ),
                 //
                 // Inforamtion View
-                InfoView(controller: controller,)
+                InfoView(
+                  controller: controller,
+                )
               ],
             ),
           );

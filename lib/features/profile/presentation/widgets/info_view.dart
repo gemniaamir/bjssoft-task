@@ -36,18 +36,21 @@ class InfoView extends StatelessWidget {
         ),
         // Account Visibility Switch
         CustomSwitchField(
-            title: 'Account',
-            value: controller.userModel.isPublic == null
-                ? 'Private'
-                : controller.userModel.isPublic
-                    ? 'Public'
-                    : 'Private',
-            switchState: controller.userModel.isPublic ?? false,
-            updateState: controller.userModel.setIsPublic),
+          title: 'Account',
+          value: controller.userModel.isPublic == null
+              ? 'Private'
+              : controller.userModel.isPublic
+                  ? 'Public'
+                  : 'Private',
+          switchState: controller.userModel.isPublic ?? false,
+          updateState: controller.userModel.setIsPublic,
+          controller: controller,
+        ),
         // Account Visibility Switch
         CustomSwitchField(
             title: 'Notification',
             switchState: controller.userModel.isNotificationOn ?? false,
+            controller: controller,
             updateState: controller.userModel.setIsNotificationOn),
         CustomSwitchField(
             title: 'Theme',
@@ -57,6 +60,7 @@ class InfoView extends StatelessWidget {
                     ? 'Dark Theme'
                     : 'Light Theme',
             switchState: controller.userModel.isDarkTheme ?? false,
+            controller: controller,
             updateState: controller.userModel.setIsDarkTheme),
       ],
     );

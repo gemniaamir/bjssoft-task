@@ -14,7 +14,6 @@ class EditProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData.fallback(),
           title: const LargeTitle(title: 'Edit Profile Screen'),
           centerTitle: true,
           backgroundColor: Constants.backgroundColor,
@@ -28,7 +27,7 @@ class EditProfileScreen extends StatelessWidget {
                 // Header Card
                 HeaderCard(
                   controller: controller,
-                  isEditVisible: false,
+                  isEditVisible: true,
                 ),
                 //
                 // Inforamtion Form

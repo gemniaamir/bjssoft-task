@@ -1,22 +1,24 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, must_be_immutable
+import 'package:bjssoft/features/profile/presentation/providers/profile_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bjssoft/features/profile/presentation/widgets/medium_title.dart';
 
 class CustomSwitchField extends StatelessWidget {
-  
   final String title;
   String? value;
   final bool switchState;
   final Function updateState;
+  final ProfileProvider controller;
 
-  CustomSwitchField({
-    Key? key,
-    required this.title,
-    this.value,
-    required this.switchState,
-    required this.updateState,
-  }) : super(key: key);
+  CustomSwitchField(
+      {Key? key,
+      required this.title,
+      this.value,
+      required this.switchState,
+      required this.updateState,
+      required this.controller})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,8 @@ class CustomSwitchField extends StatelessWidget {
               Switch(
                   value: switchState,
                   onChanged: (updatedState) {
-                    updateState(updatedState);
+                    controller.updateUserSwitchValues(
+                        updateState, updatedState);
                   })
             ],
           )

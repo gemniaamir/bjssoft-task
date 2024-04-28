@@ -26,6 +26,7 @@ class _InfoFormState extends State<InfoForm> {
           children: [
             // Username
             CustomFormField(
+              editController: widget.controller.usernameController,
               title: 'Username',
               hintText: 'abc@xyz.com',
               validator: (val) {
@@ -37,6 +38,7 @@ class _InfoFormState extends State<InfoForm> {
             ),
             // Email
             CustomFormField(
+              editController: widget.controller.emailController,
               title: 'Email',
               hintText: 'abc@xyz.com',
               validator: (val) {
@@ -48,6 +50,7 @@ class _InfoFormState extends State<InfoForm> {
             ),
             // Occupation
             CustomFormField(
+              editController: widget.controller.occupationController,
               title: 'Occupation',
               hintText: 'Developer',
               validator: (val) {
@@ -79,7 +82,8 @@ class _InfoFormState extends State<InfoForm> {
                           color: Colors.white,
                           child: DropdownMenu<String>(
                             width: MediaQuery.of(context).size.width / 2 - 30,
-                            initialSelection: 'Male',
+                            initialSelection:
+                                widget.controller.userModel.gender,
                             textStyle: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w500),
                             menuStyle: MenuStyle(
@@ -94,7 +98,9 @@ class _InfoFormState extends State<InfoForm> {
                               DropdownMenuEntry(
                                   value: 'Female', label: 'Female')
                             ],
-                            onSelected: (value) {},
+                            onSelected: (value) {
+                              widget.controller.updateGender(value!);
+                            },
                           ),
                         ),
                       ],
@@ -123,6 +129,8 @@ class _InfoFormState extends State<InfoForm> {
                                 width: 1,
                               )),
                           child: TextField(
+                            controller: widget.controller.dobController,
+                            style: const TextStyle(fontWeight: FontWeight.bold),
                             readOnly: true,
                             onTap: () {
                               widget.controller.selectFromDatePicker(context);
@@ -157,7 +165,9 @@ class _InfoFormState extends State<InfoForm> {
                       color: Colors.blue,
                       title: 'Cancel',
                       size: 20,
-                      action: () {},
+                      action: () {
+                        Navigator.pop(context);
+                      },
                     ),
                   ),
                   const SizedBox(
@@ -170,7 +180,15 @@ class _InfoFormState extends State<InfoForm> {
                       title: 'Save',
                       size: 20,
                       action: () {
-                        if (formKey.currentState!.validate()) {}
+                        if (formKey.currentState!.validate()) {
+                          if (widget.controller.gender == '' ||
+                              widget.controller.dobController.text == '') {
+                            widget.controller.showSnackBar(
+                                Constants.emptyFieldErrorMessage, context);
+                          } else {
+                            widget.controller.updateUserModel(context);
+                          }
+                        }
                       },
                     ),
                   )
